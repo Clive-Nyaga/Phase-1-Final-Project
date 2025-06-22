@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Just Ship It - Delivery Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Just Ship It</h1>
+    <p>Truck Delivery Management System</p>
+  </header>
+
+  <section>
+    <h2>Add New Delivery</h2>
+    <form id="delivery-form">
+      <input type="text" id="client" placeholder="Client Name" required>
+      <input type="text" id="destination" placeholder="Destination" required>
+      <input type="text" id="product" placeholder="Product Type" required>
+      <input type="text" id="customer" placeholder="Customer Name" required>
+      <button type="submit">Add Delivery</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Filter Deliveries</h2>
+    <select id="status-filter">
+      <option value="all">All Deliveries</option>
+      <option value="Pending">Pending</option>
+      <option value="In-Transit">In-Transit</option>
+      <option value="Delivered">Delivered</option>
+    </select>
+  </section>
+
+  <section>
+    <h2>Deliveries</h2>
+    <div id="deliveries-container"></div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

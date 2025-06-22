@@ -1,0 +1,64 @@
+{
+  "deliveries": [
+    {
+      "id": 1,
+      "client": "ABC Electronics",
+      "destination": "Nairobi CBD",
+      "status": "Pending",
+      "truck": "Unassigned",
+      "driver": "Unassigned",
+      "product": "Laptops",
+      "customer": "Tech Store Ltd"
+    },
+    {
+      "id": 2,
+      "client": "Fresh Farms",
+      "destination": "Karen",
+      "status": "In-Transit",
+      "truck": "Truck 12",
+      "driver": "James Mwangi",
+      "product": "Vegetables",
+      "customer": "Karen Supermarket"
+    },
+    {
+      "id": 3,
+      "client": "Fashion Hub",
+      "destination": "Westlands",
+      "status": "Delivered",
+      "truck": "Truck 05",
+      "driver": "Mary Wanjiku",
+      "product": "Clothing",
+      "customer": "Style Boutique"
+    },
+    {
+      "id": 4,
+      "client": "Home Essentials",
+      "destination": "Kiambu",
+      "status": "Pending",
+      "truck": "Unassigned",
+      "driver": "Unassigned",
+      "product": "Furniture",
+      "customer": "Modern Living Store"
+    },
+    {
+      "id": 5,
+      "client": "Medical Supplies Co",
+      "destination": "Thika",
+      "status": "In-Transit",
+      "truck": "Truck 08",
+      "driver": "Peter Kamau",
+      "product": "Medical Equipment",
+      "customer": "Thika Hospital"
+    },
+    {
+      "client": "Amazon",
+      "destination": "Kikuyu",
+      "product": "Laptop",
+      "customer": "Nyaga Kagotho",
+      "status": "Pending",
+      "truck": "Unassigned",
+      "driver": "Unassigned",
+      "id": 6
+    }
+  ]
+}
