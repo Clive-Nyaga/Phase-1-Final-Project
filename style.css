@@ -73,3 +73,31 @@ button:hover {
   font-size: 12px;
   padding: 5px 10px;
 }
+
+#drivers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.driver-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-width: 300px;
+}
+
+.driver-card > div:last-child {
+  display: flex;
+  gap: 5px;
+}
+
+.driver-card p {
+  margin: 5px 0 0 0;
+  color: #666;
+}

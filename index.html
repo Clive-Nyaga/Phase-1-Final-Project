@@ -24,12 +24,32 @@
   </section>
 
   <section>
+    <h2>Driver Management</h2>
+    <form id="driver-form">
+      <input type="text" id="driver-name" placeholder="Driver Name" required>
+      <button type="submit">Hire Driver</button>
+    </form>
+    <select id="driver-status-filter">
+      <option value="all">All Drivers</option>
+      <option value="Idle">Idle Drivers</option>
+      <option value="On Transit">On Transit Drivers</option>
+    </select>
+    <div id="drivers-container"></div>
+  </section>
+
+  <section>
     <h2>Filter Deliveries</h2>
     <select id="status-filter">
-      <option value="all">All Deliveries</option>
+      <option value="all">All Status</option>
       <option value="Pending">Pending</option>
       <option value="In-Transit">In-Transit</option>
       <option value="Delivered">Delivered</option>
+    </select>
+    <select id="driver-filter">
+      <option value="all">All Drivers</option>
+    </select>
+    <select id="truck-filter">
+      <option value="all">All Trucks</option>
     </select>
   </section>
 

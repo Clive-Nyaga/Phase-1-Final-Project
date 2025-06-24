@@ -1,12 +1,29 @@
 {
+  "drivers": [
+    {
+      "id": 1,
+      "name": "James Mwangi",
+      "status": "On Transit"
+    },
+    {
+      "id": 2,
+      "name": "Mary Wanjiku",
+      "status": "Idle"
+    },
+    {
+      "id": 3,
+      "name": "Peter Kamau",
+      "status": "Idle"
+    }
+  ],
   "deliveries": [
     {
       "id": 1,
       "client": "ABC Electronics",
       "destination": "Nairobi CBD",
-      "status": "Pending",
-      "truck": "Unassigned",
-      "driver": "Unassigned",
+      "status": "In-Transit",
+      "truck": "09",
+      "driver": "James Mwangi",
       "product": "Laptops",
       "customer": "Tech Store Ltd"
     },
@@ -14,7 +31,7 @@
       "id": 2,
       "client": "Fresh Farms",
       "destination": "Karen",
-      "status": "In-Transit",
+      "status": "Delivered",
       "truck": "Truck 12",
       "driver": "James Mwangi",
       "product": "Vegetables",
@@ -44,7 +61,7 @@
       "id": 5,
       "client": "Medical Supplies Co",
       "destination": "Thika",
-      "status": "In-Transit",
+      "status": "Delivered",
       "truck": "Truck 08",
       "driver": "Peter Kamau",
       "product": "Medical Equipment",
