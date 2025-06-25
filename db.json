@@ -14,6 +14,11 @@
       "id": 3,
       "name": "Peter Kamau",
       "status": "Idle"
+    },
+    {
+      "name": "Abubakar Sheikh",
+      "status": "Idle",
+      "id": 4
     }
   ],
   "deliveries": [
@@ -51,7 +56,7 @@
       "id": 4,
       "client": "Home Essentials",
       "destination": "Kiambu",
-      "status": "Pending",
+      "status": "Delivered",
       "truck": "Unassigned",
       "driver": "Unassigned",
       "product": "Furniture",
@@ -72,10 +77,20 @@
       "destination": "Kikuyu",
       "product": "Laptop",
       "customer": "Nyaga Kagotho",
+      "status": "Delivered",
+      "truck": "05",
+      "driver": "Peter Kamau",
+      "id": 6
+    },
+    {
+      "client": "Jumia",
+      "destination": "Nyeri",
+      "product": "Fertilizer",
+      "customer": "Clive Nyaga",
       "status": "Pending",
       "truck": "Unassigned",
       "driver": "Unassigned",
-      "id": 6
+      "id": 7
     }
   ]
 }

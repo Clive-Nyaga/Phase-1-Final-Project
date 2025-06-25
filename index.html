@@ -12,7 +12,15 @@
     <p>Truck Delivery Management System</p>
   </header>
 
-  <section>
+ <!-- <nav id="navbar">
+    <a href="#add-delivery">Add Delivery</a>
+    <a href="#driver-management">Drivers</a>
+    <a href="#filter-deliveries">Filters</a>
+    <a href="#deliveries">Deliveries</a>
+  </nav>
+-->
+  
+  <section id="add-delivery">
     <h2>Add New Delivery</h2>
     <form id="delivery-form">
       <input type="text" id="client" placeholder="Client Name" required>
@@ -23,7 +31,7 @@
     </form>
   </section>
 
-  <section>
+  <section id="driver-management">
     <h2>Driver Management</h2>
     <form id="driver-form">
       <input type="text" id="driver-name" placeholder="Driver Name" required>
@@ -37,7 +45,7 @@
     <div id="drivers-container"></div>
   </section>
 
-  <section>
+  <section id="filter-deliveries">
     <h2>Filter Deliveries</h2>
     <select id="status-filter">
       <option value="all">All Status</option>
@@ -53,7 +61,7 @@
     </select>
   </section>
 
-  <section>
+  <section id="deliveries">
     <h2>Deliveries</h2>
     <div id="deliveries-container"></div>
   </section>

@@ -83,6 +83,8 @@ function renderDeliveries(deliveries) {
   deliveries.forEach(delivery => {
     const div = document.createElement('div');
     div.className = 'delivery-card';
+    const assignBtn = delivery.status === 'Pending' ? `<button onclick="assignTruckDriver(${delivery.id})">Assign Truck/Driver</button>` : '';
+    const deliveredBtn = delivery.status === 'In-Transit' ? `<button onclick="markDelivered(${delivery.id})">Mark Delivered</button>` : '';
     div.innerHTML = `
       <h3>${delivery.client}</h3>
       <p><strong>Destination:</strong> ${delivery.destination}</p>
@@ -92,8 +94,8 @@ function renderDeliveries(deliveries) {
       <p><strong>Truck:</strong> ${delivery.truck}</p>
       <p><strong>Driver:</strong> ${delivery.driver}</p>
       <div class="actions">
-        <button onclick="assignTruckDriver(${delivery.id})">Assign Truck/Driver</button>
-        <button onclick="markDelivered(${delivery.id})">Mark Delivered</button>
+        ${assignBtn}
+        ${deliveredBtn}
         <button onclick="deleteDelivery(${delivery.id})">Delete</button>
       </div>
     `;
