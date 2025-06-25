@@ -1,23 +1,75 @@
 let allDeliveries = [];
 let allDrivers = [];
+let allTrucks = [];
 
 // Fetch data on page load
 Promise.all([
   fetch('http://localhost:3000/deliveries').then(res => res.json()),
-  fetch('http://localhost:3000/drivers').then(res => res.json())
-]).then(([deliveries, drivers]) => {
+  fetch('http://localhost:3000/drivers').then(res => res.json()),
+  fetch('http://localhost:3000/trucks').then(res => res.json())
+]).then(([deliveries, drivers, trucks]) => {
   allDeliveries = deliveries;
   allDrivers = drivers;
+  allTrucks = trucks;
   updateDriverStatuses();
+  updateTruckStatuses();
   populateFilterOptions();
   renderDeliveries(deliveries);
   renderDrivers();
+  renderTrucks();
 });
+
+function updateTruckStatuses() {
+  const activeTrucks = allDeliveries.filter(d => d.status === 'In-Transit').map(d => d.truck);
+  allTrucks.forEach(truck => {
+    if (truck.status !== 'Maintenance') {
+      const newStatus = activeTrucks.includes(truck.number) ? 'In Transit' : 'Idle';
+      if (truck.status !== newStatus) {
+        truck.status = newStatus;
+        fetch(`http://localhost:3000/trucks/${truck.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+      }
+    }
+  });
+}
+
+function renderTrucks(trucks = allTrucks) {
+  const container = document.getElementById('trucks-container');
+  container.innerHTML = '';
+  trucks.forEach(truck => {
+    const div = document.createElement('div');
+    div.className = 'truck-card';
+    const maintenanceBtn = truck.status !== 'In Transit' ? `<button onclick="toggleMaintenance(${truck.id})">${truck.status === 'Maintenance' ? 'End Maintenance' : 'Start Maintenance'}</button>` : '';
+    
+    let deliveryInfo = '';
+    if (truck.status === 'In Transit') {
+      const delivery = allDeliveries.find(d => d.truck === truck.number && d.status === 'In-Transit');
+      if (delivery) {
+        deliveryInfo = `<p><small>Driver: ${delivery.driver} | Delivering: ${delivery.product} to ${delivery.destination} for ${delivery.client}</small></p>`;
+      }
+    }
+    
+    div.innerHTML = `
+      <div>
+        <span><strong>${truck.number}</strong> - ${truck.status}</span>
+        ${deliveryInfo}
+      </div>
+      <div>
+        ${maintenanceBtn}
+        <button onclick="deleteTruck(${truck.id})">Delete</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
 
 function updateDriverStatuses() {
   const activeDrivers = allDeliveries.filter(d => d.status === 'In-Transit').map(d => d.driver);
   allDrivers.forEach(driver => {
-    const newStatus = activeDrivers.includes(driver.name) ? 'In transit' : 'Idle';
+    const newStatus = activeDrivers.includes(driver.name) ? 'In Transit' : 'Idle';
     if (driver.status !== newStatus) {
       driver.status = newStatus;
       fetch(`http://localhost:3000/drivers/${driver.id}`, {
@@ -38,10 +90,10 @@ function renderDrivers(drivers = allDrivers) {
     const assignBtn = driver.status === 'Idle' ? `<button onclick="assignDriverToDelivery('${driver.name}')">Assign</button>` : '';
     
     let deliveryInfo = '';
-    if (driver.status === 'In transit') {
+    if (driver.status === 'In Transit') {
       const delivery = allDeliveries.find(d => d.driver === driver.name && d.status === 'In-Transit');
       if (delivery) {
-        deliveryInfo = `<p><small>Delivering: ${delivery.product} to ${delivery.destination} for ${delivery.client}</small></p>`;
+        deliveryInfo = `<p><small>Using: ${delivery.truck} | Delivering: ${delivery.product} to ${delivery.destination} for ${delivery.client}</small></p>`;
       }
     }
     
@@ -61,8 +113,6 @@ function renderDrivers(drivers = allDrivers) {
 }
 
 function populateFilterOptions() {
-  const trucks = [...new Set(allDeliveries.map(d => d.truck).filter(t => t !== 'Unassigned'))];
-  
   const driverSelect = document.getElementById('driver-filter');
   const truckSelect = document.getElementById('truck-filter');
   
@@ -73,8 +123,8 @@ function populateFilterOptions() {
     driverSelect.innerHTML += `<option value="${driver.name}">${driver.name}</option>`;
   });
   
-  trucks.forEach(truck => {
-    truckSelect.innerHTML += `<option value="${truck}">${truck}</option>`;
+  allTrucks.forEach(truck => {
+    truckSelect.innerHTML += `<option value="${truck.number}">${truck.number}</option>`;
   });
 }
 
@@ -103,6 +153,28 @@ function renderDeliveries(deliveries) {
     container.appendChild(div);
   });
 }
+
+// Submit Event: Add new truck
+document.getElementById('truck-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const newTruck = {
+    number: document.getElementById('truck-number').value,
+    status: 'Idle'
+  };
+
+  fetch('http://localhost:3000/trucks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newTruck)
+  })
+  .then(res => res.json())
+  .then(truck => {
+    allTrucks.push(truck);
+    populateFilterOptions();
+    renderTrucks();
+    document.getElementById('truck-form').reset();
+  });
+});
 
 // Submit Event: Hire new driver
 document.getElementById('driver-form').addEventListener('submit', function(e) {
@@ -189,18 +261,34 @@ document.getElementById('driver-status-filter').addEventListener('change', funct
   renderDrivers(filtered);
 });
 
+// Truck status filter
+document.getElementById('truck-status-filter').addEventListener('change', function(e) {
+  const status = e.target.value;
+  const filtered = status === 'all' ? allTrucks : allTrucks.filter(t => t.status === status);
+  renderTrucks(filtered);
+});
+
 // Click Event: Assign truck and driver
 function assignTruckDriver(id) {
-  const truck = prompt('Enter truck number:');
+  const availableTrucks = allTrucks.filter(t => t.status === 'Idle');
   const idleDrivers = allDrivers.filter(d => d.status === 'Idle');
+  
+  if (availableTrucks.length === 0) {
+    alert('No available trucks (trucks in maintenance cannot be assigned)!');
+    return;
+  }
   if (idleDrivers.length === 0) {
     alert('No idle drivers available!');
     return;
   }
+  
+  const truckOptions = availableTrucks.map(t => t.number).join(', ');
   const driverOptions = idleDrivers.map(d => d.name).join(', ');
+  
+  const truck = prompt(`Available trucks: ${truckOptions}\nEnter truck number:`);
   const driver = prompt(`Available drivers: ${driverOptions}\nEnter driver name:`);
   
-  if (truck && driver && idleDrivers.some(d => d.name === driver)) {
+  if (truck && driver && availableTrucks.some(t => t.number === truck) && idleDrivers.some(d => d.name === driver)) {
     fetch(`http://localhost:3000/deliveries/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -211,7 +299,9 @@ function assignTruckDriver(id) {
       const index = allDeliveries.findIndex(d => d.id === id);
       allDeliveries[index] = updated;
       updateDriverStatuses();
+      updateTruckStatuses();
       renderDrivers();
+      renderTrucks();
       applyFilters();
     });
   }
@@ -229,7 +319,9 @@ function markDelivered(id) {
     const index = allDeliveries.findIndex(d => d.id === id);
     allDeliveries[index] = updated;
     updateDriverStatuses();
+    updateTruckStatuses();
     renderDrivers();
+    renderTrucks();
     applyFilters();
   });
 }
@@ -241,7 +333,9 @@ function deleteDelivery(id) {
     .then(() => {
       allDeliveries = allDeliveries.filter(d => d.id !== id);
       updateDriverStatuses();
+      updateTruckStatuses();
       renderDrivers();
+      renderTrucks();
       populateFilterOptions();
       applyFilters();
     });
@@ -251,13 +345,21 @@ function deleteDelivery(id) {
 // Assign driver to delivery
 function assignDriverToDelivery(driverName) {
   const pendingDeliveries = allDeliveries.filter(d => d.status === 'Pending');
+  const availableTrucks = allTrucks.filter(t => t.status === 'Idle');
+  
   if (pendingDeliveries.length === 0) {
     alert('No pending deliveries available!');
     return;
   }
+  if (availableTrucks.length === 0) {
+    alert('No available trucks!');
+    return;
+  }
+  
   const deliveryOptions = pendingDeliveries.map(d => `${d.id}: ${d.client} - ${d.destination}`).join('\n');
+  const truckOptions = availableTrucks.map(t => t.number).join(', ');
   const deliveryId = prompt(`Available deliveries:\n${deliveryOptions}\n\nEnter delivery ID:`);
-  const truck = prompt('Enter truck number:');
+  const truck = prompt(`Available trucks: ${truckOptions}\nEnter truck number:`);
   
   if (deliveryId && truck && pendingDeliveries.some(d => d.id == deliveryId)) {
     fetch(`http://localhost:3000/deliveries/${deliveryId}`, {
@@ -270,8 +372,45 @@ function assignDriverToDelivery(driverName) {
       const index = allDeliveries.findIndex(d => d.id == deliveryId);
       allDeliveries[index] = updated;
       updateDriverStatuses();
+      updateTruckStatuses();
       renderDrivers();
+      renderTrucks();
       applyFilters();
+    });
+  }
+}
+
+// Toggle truck maintenance
+function toggleMaintenance(id) {
+  const truck = allTrucks.find(t => t.id === id);
+  const newStatus = truck.status === 'Maintenance' ? 'Idle' : 'Maintenance';
+  
+  fetch(`http://localhost:3000/trucks/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then(res => res.json())
+  .then(updated => {
+    const index = allTrucks.findIndex(t => t.id === id);
+    allTrucks[index] = updated;
+    renderTrucks();
+  });
+}
+
+// Delete truck
+function deleteTruck(id) {
+  const truck = allTrucks.find(t => t.id === id);
+  if (truck.status === 'In Transit') {
+    alert('Cannot delete truck that is in transit!');
+    return;
+  }
+  if (confirm(`Delete ${truck.number}?`)) {
+    fetch(`http://localhost:3000/trucks/${id}`, { method: 'DELETE' })
+    .then(() => {
+      allTrucks = allTrucks.filter(t => t.id !== id);
+      populateFilterOptions();
+      renderTrucks();
     });
   }
 }
@@ -279,8 +418,8 @@ function assignDriverToDelivery(driverName) {
 // Fire driver
 function fireDriver(id) {
   const driver = allDrivers.find(d => d.id === id);
-  if (driver.status === 'In transit') {
-    alert('You cannot fire a driver who is in transit!');
+  if (driver.status === 'In Transit') {
+    alert('Cannot fire driver who is on transit!');
     return;
   }
   if (confirm(`Fire ${driver.name}?`)) {

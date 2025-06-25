@@ -113,12 +113,13 @@ button:hover {
 .driver-card {
   background: #f9f9f9;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 20px;
   border-radius: 3px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  min-width: 300px;
+  min-width: 400px;
+  min-height: 80px;
 }
 
 .driver-card > div:last-child {
@@ -137,4 +138,33 @@ button[onclick*="delete"], button[onclick*="fire"] {
 
 button[onclick*="delete"]:hover, button[onclick*="fire"]:hover {
   background-color: #c82333;
+}
+
+#trucks-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.truck-card {
+  background: #f0f8ff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-width: 400px;
+  min-height: 80px;
+}
+
+.truck-card > div:last-child {
+  display: flex;
+  gap: 5px;
+}
+
+.truck-card p {
+  margin: 5px 0 0 0;
+  color: #666;
 }

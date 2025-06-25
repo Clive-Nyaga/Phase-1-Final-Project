@@ -41,9 +41,24 @@
     <select id="driver-status-filter">
       <option value="all">All Drivers</option>
       <option value="Idle">Idle Drivers</option>
-      <option value="In transit">In Transit Drivers</option>
+      <option value="In Transit">In Transit Drivers</option>
     </select>
     <div id="drivers-container"></div>
+  </section>
+
+  <section id="truck-management">
+    <h2>Truck Management</h2>
+    <form id="truck-form">
+      <input type="text" id="truck-number" placeholder="Truck Number" required>
+      <button type="submit">Add Truck</button>
+    </form>
+    <select id="truck-status-filter">
+      <option value="all">All Trucks</option>
+      <option value="Idle">Idle Trucks</option>
+      <option value="In Transit">In Transit Trucks</option>
+      <option value="Maintenance">Maintenance Trucks</option>
+    </select>
+    <div id="trucks-container"></div>
   </section>
 
   <section id="filter-deliveries">
