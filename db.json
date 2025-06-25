@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "James Mwangi",
-      "status": "On Transit"
+      "status": "In transit"
     },
     {
       "id": 2,
@@ -91,6 +91,16 @@
       "truck": "Unassigned",
       "driver": "Unassigned",
       "id": 7
+    },
+    {
+      "client": "Alibaba",
+      "destination": "Kahawa",
+      "product": "PlayStation",
+      "customer": "Calvin Weru",
+      "status": "Pending",
+      "truck": "Unassigned",
+      "driver": "Unassigned",
+      "id": 8
     }
   ]
 }

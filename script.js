@@ -17,7 +17,7 @@ Promise.all([
 function updateDriverStatuses() {
   const activeDrivers = allDeliveries.filter(d => d.status === 'In-Transit').map(d => d.driver);
   allDrivers.forEach(driver => {
-    const newStatus = activeDrivers.includes(driver.name) ? 'On Transit' : 'Idle';
+    const newStatus = activeDrivers.includes(driver.name) ? 'In transit' : 'Idle';
     if (driver.status !== newStatus) {
       driver.status = newStatus;
       fetch(`http://localhost:3000/drivers/${driver.id}`, {
@@ -38,7 +38,7 @@ function renderDrivers(drivers = allDrivers) {
     const assignBtn = driver.status === 'Idle' ? `<button onclick="assignDriverToDelivery('${driver.name}')">Assign</button>` : '';
     
     let deliveryInfo = '';
-    if (driver.status === 'On Transit') {
+    if (driver.status === 'In transit') {
       const delivery = allDeliveries.find(d => d.driver === driver.name && d.status === 'In-Transit');
       if (delivery) {
         deliveryInfo = `<p><small>Delivering: ${delivery.product} to ${delivery.destination} for ${delivery.client}</small></p>`;
@@ -268,8 +268,8 @@ function assignDriverToDelivery(driverName) {
 // Fire driver
 function fireDriver(id) {
   const driver = allDrivers.find(d => d.id === id);
-  if (driver.status === 'On Transit') {
-    alert('Cannot fire driver who is on transit!');
+  if (driver.status === 'In transit') {
+    alert('You cannot fire a driver who is in transit!');
     return;
   }
   if (confirm(`Fire ${driver.name}?`)) {

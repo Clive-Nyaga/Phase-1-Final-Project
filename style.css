@@ -130,3 +130,11 @@ button:hover {
   margin: 5px 0 0 0;
   color: #666;
 }
+
+button[onclick*="delete"], button[onclick*="fire"] {
+  background-color: #dc3545;
+}
+
+button[onclick*="delete"]:hover, button[onclick*="fire"]:hover {
+  background-color: #c82333;
+}
