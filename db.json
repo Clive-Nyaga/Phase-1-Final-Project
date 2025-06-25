@@ -17,8 +17,15 @@
     },
     {
       "name": "Abubakar Sheikh",
-      "status": "Idle",
+      "status": "In transit",
       "id": 4
+    },
+    {
+      "name": "Brian Kamanga",
+      "dateOfBirth": "2003-08-08",
+      "age": 21,
+      "status": "Idle",
+      "id": 5
     }
   ],
   "deliveries": [
@@ -87,9 +94,9 @@
       "destination": "Nyeri",
       "product": "Fertilizer",
       "customer": "Clive Nyaga",
-      "status": "Pending",
-      "truck": "Unassigned",
-      "driver": "Unassigned",
+      "status": "In-Transit",
+      "truck": "01",
+      "driver": "Abubakar Sheikh",
       "id": 7
     },
     {

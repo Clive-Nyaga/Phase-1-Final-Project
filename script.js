@@ -45,9 +45,10 @@ function renderDrivers(drivers = allDrivers) {
       }
     }
     
+    const ageInfo = driver.age ? ` (Age: ${driver.age})` : '';
     div.innerHTML = `
       <div>
-        <span><strong>${driver.name}</strong> - ${driver.status}</span>
+        <span><strong>${driver.name}</strong>${ageInfo} - ${driver.status}</span>
         ${deliveryInfo}
       </div>
       <div>
@@ -106,8 +107,18 @@ function renderDeliveries(deliveries) {
 // Submit Event: Hire new driver
 document.getElementById('driver-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  const dob = new Date(document.getElementById('driver-dob').value);
+  const age = Math.floor((new Date() - dob) / (365.25 * 24 * 60 * 60 * 1000));
+  
+  if (age < 21) {
+    alert('Driver must be at least 21 years old!');
+    return;
+  }
+  
   const newDriver = {
     name: document.getElementById('driver-name').value,
+    dateOfBirth: document.getElementById('driver-dob').value,
+    age: age,
     status: 'Idle'
   };
 
