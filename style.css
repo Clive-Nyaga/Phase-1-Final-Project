@@ -168,3 +168,65 @@ button[onclick*="delete"]:hover, button[onclick*="fire"]:hover {
   margin: 5px 0 0 0;
   color: #666;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    padding-top: 120px;
+  }
+  
+  header {
+    padding: 0.5rem;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  section {
+    padding: 15px;
+  }
+  
+  form {
+    flex-direction: column;
+  }
+  
+  form input, select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  #deliveries-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .driver-card, .truck-card {
+    min-width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .driver-card > div:last-child, .truck-card > div:last-child {
+    justify-content: flex-start;
+  }
+  
+  .actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.2rem;
+  }
+  
+  .actions button {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  
+  .driver-card, .truck-card {
+    padding: 15px;
+  }
+}
