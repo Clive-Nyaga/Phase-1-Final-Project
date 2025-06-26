@@ -58,6 +58,22 @@
       "age": 21,
       "status": "Idle",
       "id": 5
+    },
+    {
+      "name": "Ian Lee",
+      "dateOfBirth": "2000-02-10",
+      "age": 25,
+      "status": "In Transit",
+      "image": "blob:http://127.0.0.1:5500/5765cf5f-8bb6-46dc-89af-3b70b2e8d9cd",
+      "id": 6
+    },
+    {
+      "name": "Calvin Weru",
+      "dateOfBirth": "1995-06-07",
+      "age": 30,
+      "status": "Idle",
+      "image": "blob:http://127.0.0.1:5500/014460a2-8a13-4410-9281-d82566efe949",
+      "id": 7
     }
   ],
   "deliveries": [
@@ -136,10 +152,20 @@
       "destination": "Kahawa",
       "product": "PlayStation",
       "customer": "Calvin Weru",
+      "status": "In-Transit",
+      "truck": "08",
+      "driver": "Ian Lee",
+      "id": 8
+    },
+    {
+      "client": "Jumia",
+      "destination": "Machakos",
+      "product": "Mangoes",
+      "customer": "NY4G4",
       "status": "Pending",
       "truck": "Unassigned",
       "driver": "Unassigned",
-      "id": 8
+      "id": 9
     }
   ]
 }

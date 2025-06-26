@@ -52,10 +52,14 @@ function renderTrucks(trucks = allTrucks) {
       }
     }
     
+    const truckImage = truck.image ? `<img src="${truck.image}" alt="${truck.number}" class="profile-image">` : '<div class="placeholder-image">🚚</div>';
     div.innerHTML = `
-      <div>
-        <span><strong>${truck.number}</strong> - ${truck.status}</span>
-        ${deliveryInfo}
+      <div class="card-content">
+        ${truckImage}
+        <div class="card-info">
+          <span><strong>${truck.number}</strong> - ${truck.status}</span>
+          ${deliveryInfo}
+        </div>
       </div>
       <div>
         ${maintenanceBtn}
@@ -98,10 +102,14 @@ function renderDrivers(drivers = allDrivers) {
     }
     
     const ageInfo = driver.age ? ` (Age: ${driver.age})` : '';
+    const driverImage = driver.image ? `<img src="${driver.image}" alt="${driver.name}" class="profile-image">` : '<div class="placeholder-image">👤</div>';
     div.innerHTML = `
-      <div>
-        <span><strong>${driver.name}</strong>${ageInfo} - ${driver.status}</span>
-        ${deliveryInfo}
+      <div class="card-content">
+        ${driverImage}
+        <div class="card-info">
+          <span><strong>${driver.name}</strong>${ageInfo} - ${driver.status}</span>
+          ${deliveryInfo}
+        </div>
       </div>
       <div>
         ${assignBtn}
@@ -157,9 +165,16 @@ function renderDeliveries(deliveries) {
 // Submit Event: Add new truck
 document.getElementById('truck-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  const imageFile = document.getElementById('truck-image').files[0];
+  let imageUrl = null;
+  if (imageFile) {
+    imageUrl = URL.createObjectURL(imageFile);
+  }
+  
   const newTruck = {
     number: document.getElementById('truck-number').value,
-    status: 'Idle'
+    status: 'Idle',
+    image: imageUrl
   };
 
   fetch('http://localhost:3000/trucks', {
@@ -187,11 +202,18 @@ document.getElementById('driver-form').addEventListener('submit', function(e) {
     return;
   }
   
+  const imageFile = document.getElementById('driver-image').files[0];
+  let imageUrl = null;
+  if (imageFile) {
+    imageUrl = URL.createObjectURL(imageFile);
+  }
+  
   const newDriver = {
     name: document.getElementById('driver-name').value,
     dateOfBirth: document.getElementById('driver-dob').value,
     age: age,
-    status: 'Idle'
+    status: 'Idle',
+    image: imageUrl
   };
 
   fetch('http://localhost:3000/drivers', {
@@ -288,7 +310,24 @@ function assignTruckDriver(id) {
   const truck = prompt(`Available trucks: ${truckOptions}\nEnter truck number:`);
   const driver = prompt(`Available drivers: ${driverOptions}\nEnter driver name:`);
   
-  if (truck && driver && availableTrucks.some(t => t.number === truck) && idleDrivers.some(d => d.name === driver)) {
+  if (!truck || !driver) return;
+  
+  if (!allTrucks.some(t => t.number === truck)) {
+    alert(`Truck "${truck}" does not exist in the system!`);
+    return;
+  }
+  
+  if (!availableTrucks.some(t => t.number === truck)) {
+    alert(`Truck "${truck}" is not available (may be in transit or under maintenance)!`);
+    return;
+  }
+  
+  if (!idleDrivers.some(d => d.name === driver)) {
+    alert(`Driver "${driver}" is not available!`);
+    return;
+  }
+  
+  if (truck && driver) {
     fetch(`http://localhost:3000/deliveries/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -361,7 +400,19 @@ function assignDriverToDelivery(driverName) {
   const deliveryId = prompt(`Available deliveries:\n${deliveryOptions}\n\nEnter delivery ID:`);
   const truck = prompt(`Available trucks: ${truckOptions}\nEnter truck number:`);
   
-  if (deliveryId && truck && pendingDeliveries.some(d => d.id == deliveryId)) {
+  if (!deliveryId || !truck) return;
+  
+  if (!allTrucks.some(t => t.number === truck)) {
+    alert(`Truck "${truck}" does not exist in the system!`);
+    return;
+  }
+  
+  if (!availableTrucks.some(t => t.number === truck)) {
+    alert(`Truck "${truck}" is not available!`);
+    return;
+  }
+  
+  if (pendingDeliveries.some(d => d.id == deliveryId)) {
     fetch(`http://localhost:3000/deliveries/${deliveryId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
