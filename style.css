@@ -364,12 +364,16 @@ body.dark-mode .feature-card:hover {
   #navbar {
     top: 80px;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
+    padding: 8px 5px;
   }
   
   #navbar a {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 8px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
+    min-width: 70px;
   }
   
   section {
@@ -422,11 +426,13 @@ body.dark-mode .feature-card:hover {
   
   #navbar {
     top: 70px;
+    padding: 5px;
   }
   
   #navbar a {
-    padding: 6px 8px;
-    font-size: 12px;
+    padding: 5px 4px;
+    font-size: 10px;
+    min-width: 60px;
   }
   
   .actions button {
