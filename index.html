@@ -14,6 +14,7 @@
   </header>
 
    <nav id="navbar">
+    <a href="#about">About Us</a>
     <a href="#add-delivery">Add Delivery</a>
     <a href="#driver-management">Drivers</a>
     <a href="#truck-management">Trucks</a>
@@ -21,6 +22,22 @@
     <a href="#deliveries">Deliveries</a>
   </nav>
 
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Just Ship It is a comprehensive delivery management system designed to streamline truck delivery operations for businesses of all sizes. Our platform enables efficient coordination between client companies, dispatch managers, drivers, and administrators.</p>
+    
+    <h3>Key Features:</h3>
+    <ul>
+      <li><strong>Delivery Management:</strong> Create, track, and manage delivery orders from pending to completion</li>
+      <li><strong>Driver Management:</strong> Hire drivers, track their status, and manage assignments with age verification</li>
+      <li><strong>Fleet Management:</strong> Monitor truck availability, maintenance schedules, and assignments</li>
+      <li><strong>Real-time Tracking:</strong> View live status updates for drivers, trucks, and deliveries</li>
+      <li><strong>Smart Filtering:</strong> Filter deliveries by status, driver, or truck for quick access</li>
+      <li><strong>Visual Interface:</strong> Upload images for drivers and trucks for easy identification</li>
+    </ul>
+    
+    <p>Whether you're managing a small local delivery service or a large logistics operation, Just Ship It provides the tools you need to keep your deliveries moving efficiently and your customers satisfied.</p>
+  </section>
 
   <section id="add-delivery">
     <h2>Add New Delivery</h2>
@@ -52,7 +69,7 @@
   <section id="truck-management">
     <h2>Truck Management</h2>
     <form id="truck-form">
-      <input type="text" id="truck-number" placeholder="Truck Number" required>
+      <input type="text" id="truck-number" placeholder="Truck Number (e.g., 01, 15)" required>
       <input type="file" id="truck-image" accept="image/*">
       <button type="submit">Add Truck</button>
     </form>

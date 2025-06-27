@@ -179,6 +179,14 @@ function renderDeliveries(deliveries) {
 // Submit Event: Add new truck
 document.getElementById('truck-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  const inputNumber = document.getElementById('truck-number').value;
+  const truckNumber = inputNumber.startsWith('Truck ') ? inputNumber : `Truck ${inputNumber}`;
+  
+  if (allTrucks.some(t => t.number === truckNumber)) {
+    alert(`"${truckNumber}" already exists in the system!`);
+    return;
+  }
+  
   const imageFile = document.getElementById('truck-image').files[0];
   let imageUrl = null;
   if (imageFile) {
@@ -186,7 +194,7 @@ document.getElementById('truck-form').addEventListener('submit', function(e) {
   }
   
   const newTruck = {
-    number: document.getElementById('truck-number').value,
+    number: truckNumber,
     status: 'Idle',
     image: imageUrl
   };

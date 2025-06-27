@@ -287,6 +287,19 @@ body.dark-mode footer {
   background-color: #000;
 }
 
+/* Spacing for driver and truck management sections */
+#driver-management form {
+  margin-bottom: 30px;
+}
+
+#truck-management form {
+  margin-bottom: 30px;
+}
+
+#driver-status-filter, #truck-status-filter {
+  margin-bottom: 20px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   body {

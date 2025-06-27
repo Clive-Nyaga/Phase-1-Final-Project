@@ -13,7 +13,7 @@
     {
       "id": 3,
       "number": "Truck 08",
-      "status": "Idle"
+      "status": "In Transit"
     },
     {
       "id": 4,
@@ -29,6 +29,30 @@
       "id": 6,
       "number": "Truck 15",
       "status": "Maintenance"
+    },
+    {
+      "number": "01",
+      "status": "Idle",
+      "image": null,
+      "id": 7
+    },
+    {
+      "number": "01",
+      "status": "Idle",
+      "image": null,
+      "id": 8
+    },
+    {
+      "number": "100",
+      "status": "Idle",
+      "image": null,
+      "id": 9
+    },
+    {
+      "number": "Truck 200",
+      "status": "Idle",
+      "image": null,
+      "id": 10
     }
   ],
   "drivers": [
@@ -79,7 +103,7 @@
       "name": "El Cuatro",
       "dateOfBirth": "2003-05-07",
       "age": 22,
-      "status": "Idle",
+      "status": "In Transit",
       "image": "blob:http://127.0.0.1:5500/40e8c42d-3108-49f7-87b7-6b45c1e5b82e",
       "id": 8
     }
@@ -174,6 +198,16 @@
       "truck": "Truck 12",
       "driver": "Mary Wanjiku",
       "id": 9
+    },
+    {
+      "client": "Nvidia",
+      "destination": "Nakuru",
+      "product": "Electric Kettle",
+      "customer": "Clyde",
+      "status": "In-Transit",
+      "truck": "Truck 08",
+      "driver": "El Cuatro",
+      "id": 10
     }
   ]
 }
