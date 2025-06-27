@@ -123,15 +123,16 @@ button:hover {
   padding: 20px;
   border-radius: 3px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
-  min-width: 400px;
-  min-height: 80px;
+  width: 400px;
+  height: 120px;
 }
 
 .driver-card > div:last-child {
   display: flex;
   gap: 5px;
+  align-self: flex-end;
 }
 
 .driver-card p {
@@ -160,15 +161,16 @@ button[onclick*="delete"]:hover, button[onclick*="fire"]:hover {
   padding: 20px;
   border-radius: 3px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
-  min-width: 400px;
-  min-height: 80px;
+  width: 400px;
+  height: 120px;
 }
 
 .truck-card > div:last-child {
   display: flex;
   gap: 5px;
+  align-self: flex-end;
 }
 
 .truck-card p {
@@ -219,11 +221,77 @@ footer p {
   margin: 0;
 }
 
+#dark-mode-toggle {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: 2px solid white;
+  color: white;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+#dark-mode-toggle:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark-mode header {
+  background-color: #000;
+}
+
+body.dark-mode #navbar {
+  background-color: #333;
+}
+
+body.dark-mode section {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+body.dark-mode .delivery-card {
+  background-color: #2d2d2d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode .driver-card {
+  background-color: #333;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode .truck-card {
+  background-color: #1e3a5f;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode input, body.dark-mode select {
+  background-color: #444;
+  border-color: #666;
+  color: #e0e0e0;
+}
+
+body.dark-mode footer {
+  background-color: #000;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
     padding: 10px;
-    padding-top: 120px;
+    padding-top: 160px;
   }
   
   header {
@@ -232,6 +300,17 @@ footer p {
   
   header h1 {
     font-size: 1.5rem;
+  }
+  
+  #navbar {
+    top: 80px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  #navbar a {
+    padding: 8px 12px;
+    font-size: 14px;
   }
   
   section {
@@ -252,9 +331,9 @@ footer p {
   }
   
   .driver-card, .truck-card {
-    min-width: 100%;
-    flex-direction: column;
-    gap: 10px;
+    width: 100%;
+    height: auto;
+    min-height: 120px;
   }
   
   .card-content {
@@ -264,17 +343,31 @@ footer p {
   }
   
   .driver-card > div:last-child, .truck-card > div:last-child {
-    justify-content: flex-start;
+    justify-content: center;
+    margin-top: 10px;
   }
   
   .actions {
-    justify-content: flex-start;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
+  body {
+    padding-top: 140px;
+  }
+  
   header h1 {
     font-size: 1.2rem;
+  }
+  
+  #navbar {
+    top: 70px;
+  }
+  
+  #navbar a {
+    padding: 6px 8px;
+    font-size: 12px;
   }
   
   .actions button {
@@ -284,5 +377,12 @@ footer p {
   
   .driver-card, .truck-card {
     padding: 15px;
+    height: auto;
+    min-height: 100px;
+  }
+  
+  .profile-image, .placeholder-image {
+    width: 50px;
+    height: 50px;
   }
 }

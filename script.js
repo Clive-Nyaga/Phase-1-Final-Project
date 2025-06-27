@@ -2,6 +2,20 @@ let allDeliveries = [];
 let allDrivers = [];
 let allTrucks = [];
 
+// Dark mode toggle
+document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  this.textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('darkMode', isDark);
+});
+
+// Load dark mode preference
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark-mode');
+  document.getElementById('dark-mode-toggle').textContent = '☀️';
+}
+
 // Fetch data on page load
 Promise.all([
   fetch('http://localhost:3000/deliveries').then(res => res.json()),
@@ -396,27 +410,34 @@ function assignDriverToDelivery(driverName) {
   }
   
   const deliveryOptions = pendingDeliveries.map(d => `${d.id}: ${d.client} - ${d.destination}`).join('\n');
-  const truckOptions = availableTrucks.map(t => t.number).join(', ');
+  const truckNumbers = availableTrucks.map(t => t.number.replace('Truck ', '')).join(', ');
   const deliveryId = prompt(`Available deliveries:\n${deliveryOptions}\n\nEnter delivery ID:`);
-  const truck = prompt(`Available trucks: ${truckOptions}\nEnter truck number:`);
+  const truckNumber = prompt(`Available truck numbers: ${truckNumbers}\nEnter truck number (e.g., 01, 05):`);
   
-  if (!deliveryId || !truck) return;
+  if (!deliveryId || !truckNumber) return;
   
-  if (!allTrucks.some(t => t.number === truck)) {
-    alert(`Truck "${truck}" does not exist in the system!`);
+  if (!pendingDeliveries.some(d => d.id == deliveryId)) {
+    alert(`Delivery ID "${deliveryId}" does not exist or is not pending!`);
     return;
   }
   
-  if (!availableTrucks.some(t => t.number === truck)) {
-    alert(`Truck "${truck}" is not available!`);
+  const fullTruckName = `Truck ${truckNumber.padStart(2, '0')}`;
+  
+  if (!allTrucks.some(t => t.number === fullTruckName)) {
+    alert(`Truck "${truckNumber}" does not exist in the system!`);
     return;
   }
   
-  if (pendingDeliveries.some(d => d.id == deliveryId)) {
+  if (!availableTrucks.some(t => t.number === fullTruckName)) {
+    alert(`Truck "${truckNumber}" is not available!`);
+    return;
+  }
+  
+  if (true) {
     fetch(`http://localhost:3000/deliveries/${deliveryId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ truck, driver: driverName, status: 'In-Transit' })
+      body: JSON.stringify({ truck: fullTruckName, driver: driverName, status: 'In-Transit' })
     })
     .then(res => res.json())
     .then(updated => {
