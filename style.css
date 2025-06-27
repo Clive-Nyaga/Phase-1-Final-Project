@@ -373,6 +373,22 @@ body.dark-mode .feature-card:hover {
     font-size: 1.5rem;
   }
   
+  #weather-widget {
+    position: static;
+    margin: 10px auto 0;
+    text-align: center;
+    font-size: 12px;
+    width: fit-content;
+  }
+  
+  #dark-mode-toggle {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
   #navbar {
     top: 80px;
     flex-wrap: wrap;
@@ -402,6 +418,10 @@ body.dark-mode .feature-card:hover {
   }
   
   #deliveries-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .features-container {
     grid-template-columns: 1fr;
   }
   
@@ -436,6 +456,17 @@ body.dark-mode .feature-card:hover {
     font-size: 1.2rem;
   }
   
+  #weather-widget {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+  
+  #dark-mode-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+  
   #navbar {
     top: 70px;
     padding: 5px;
@@ -445,6 +476,10 @@ body.dark-mode .feature-card:hover {
     padding: 5px 4px;
     font-size: 10px;
     min-width: 60px;
+  }
+  
+  .feature-card {
+    padding: 15px;
   }
   
   .actions button {

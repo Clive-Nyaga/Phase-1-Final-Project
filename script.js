@@ -208,7 +208,7 @@ function renderDeliveries(deliveries) {
     const div = document.createElement('div');
     div.className = 'delivery-card';
     const assignBtn = delivery.status === 'Pending' ? `<button onclick="assignTruckDriver(${delivery.id})">Assign Truck/Driver</button>` : '';
-    const deliveredBtn = delivery.status === 'In-Transit' ? `<button onclick="markDelivered(${delivery.id})">Mark Delivered</button>` : '';
+    const deliveredBtn = delivery.status === 'In-Transit' ? `<button onclick="markDelivered(${delivery.id})">Mark as Delivered</button>` : '';
     div.innerHTML = `
       <h3>${delivery.client}</h3>
       <p><strong>Destination:</strong> ${delivery.destination}</p>
