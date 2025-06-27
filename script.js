@@ -2,6 +2,56 @@ let allDeliveries = [];
 let allDrivers = [];
 let allTrucks = [];
 
+// Weather API integration using Open-Meteo
+async function fetchWeather(lat = -1.286389, lon = 36.817223) { // Nairobi coordinates
+  try {
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=Africa/Nairobi`);
+    const data = await response.json();
+    
+    const temp = Math.round(data.current_weather.temperature);
+    const weatherCode = data.current_weather.weathercode;
+    const weatherDesc = getWeatherDescription(weatherCode);
+    const weatherIcon = getWeatherIcon(weatherCode);
+    
+    document.getElementById('weather-info').innerHTML = 
+      `${weatherIcon} Nairobi: ${temp}°C ${weatherDesc}`;
+    
+    checkWeatherConditions(weatherCode);
+  } catch (error) {
+    document.getElementById('weather-info').textContent = '☁️ Weather unavailable';
+  }
+}
+
+function getWeatherDescription(code) {
+  const weatherCodes = {
+    0: 'clear sky', 1: 'mainly clear', 2: 'partly cloudy', 3: 'overcast',
+    45: 'fog', 48: 'depositing rime fog', 51: 'light drizzle', 53: 'moderate drizzle',
+    55: 'dense drizzle', 61: 'slight rain', 63: 'moderate rain', 65: 'heavy rain',
+    71: 'slight snow', 73: 'moderate snow', 75: 'heavy snow', 95: 'thunderstorm'
+  };
+  return weatherCodes[code] || 'unknown';
+}
+
+function getWeatherIcon(code) {
+  if (code === 0 || code === 1) return '☀️';
+  if (code === 2 || code === 3) return '⛅';
+  if (code >= 45 && code <= 48) return '🌫️';
+  if (code >= 51 && code <= 65) return '🌧️';
+  if (code >= 71 && code <= 75) return '❄️';
+  if (code >= 95) return '⛈️';
+  return '☁️';
+}
+
+function checkWeatherConditions(weatherCode) {
+  const badWeatherCodes = [61, 63, 65, 71, 73, 75, 95, 96, 99]; // Rain, snow, thunderstorm
+  
+  if (badWeatherCodes.includes(weatherCode)) {
+    setTimeout(() => {
+      alert('⚠️ Weather Alert: Poor conditions detected. Consider postponing non-urgent deliveries for safety.');
+    }, 2000);
+  }
+}
+
 // Dark mode toggle
 document.getElementById('dark-mode-toggle').addEventListener('click', function() {
   document.body.classList.toggle('dark-mode');
@@ -31,6 +81,7 @@ Promise.all([
   renderDeliveries(deliveries);
   renderDrivers();
   renderTrucks();
+  fetchWeather(); // Load weather data
 });
 
 function updateTruckStatuses() {
